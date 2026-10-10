@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avan Gogineni · AI Engineer</title>
+<meta name="description" content="Avan Chowdary Gogineni, AI engineer in Stockholm building production RAG and agentic LLM systems on Azure.">
+<meta name="theme-color" content="#0b0d12">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c5cff'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='43' font-size='30' font-family='Arial' font-weight='700' text-anchor='middle' fill='white'%3EAG%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0b0d12;
+    --surface: #12151d;
+    --surface-2: #181c26;
+    --border: rgba(255,255,255,.08);
+    --text: #e9ebf1;
+    --muted: #9aa2b5;
+    --accent: #7c5cff;
+    --accent-2: #22d3ee;
+    --grad: linear-gradient(110deg, var(--accent), var(--accent-2));
+    --radius: 18px;
+    --max: 1080px;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f6f7fb; --surface: #ffffff; --surface-2: #f0f2f8;
+      --border: rgba(15,20,40,.10); --text: #12151f; --muted: #5a6277;
+      --accent: #5b3df5; --accent-2: #0891b2;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { width: min(var(--max), 100% - 48px); margin-inline: auto; }
+  :focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; border-radius: 6px; }
+
+  /* Background */
+  .bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+  .blob { position: absolute; width: 52vmax; height: 52vmax; border-radius: 50%; filter: blur(90px); opacity: .28; }
+  .blob.a { background: var(--accent); top: -22vmax; left: -14vmax; animation: drift1 26s ease-in-out infinite alternate; }
+  .blob.b { background: var(--accent-2); bottom: -26vmax; right: -16vmax; opacity: .20; animation: drift2 32s ease-in-out infinite alternate; }
+  .grid {
+    position: absolute; inset: 0; opacity: .5;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at 50% 20%, #000 20%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 20%, #000 20%, transparent 70%);
+  }
+  .glow {
+    position: absolute; top: 0; left: 0; width: 240px; height: 240px; margin: -120px 0 0 -120px; border-radius: 50%;
+    pointer-events: none; opacity: 0; transition: opacity .5s ease; will-change: transform;
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 42%, transparent) 0%,
+                                         color-mix(in srgb, var(--accent-2) 18%, transparent) 42%, transparent 70%);
+    filter: blur(10px);
+  }
+  .glow.on { opacity: 1; }
+  @keyframes drift1 { to { transform: translate(14vmax, 10vmax) scale(1.15); } }
+  @keyframes drift2 { to { transform: translate(-12vmax, -8vmax) scale(1.1); } }
+
+  /* Nav */
+  .nav { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+         background: color-mix(in srgb, var(--bg) 70%, transparent); border-bottom: 1px solid var(--border); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { font-weight: 700; letter-spacing: .2px; }
+  .logo span { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .links { display: flex; gap: 26px; font-size: .93rem; color: var(--muted); }
+  .links a { position: relative; transition: color .2s; }
+  .links a:hover { color: var(--text); }
+  .links a::after { content: ""; position: absolute; left: 0; bottom: -4px; height: 2px; width: 100%;
+    background: var(--grad); transform: scaleX(0); transform-origin: left; transition: transform .25s; }
+  .links a:hover::after { transform: scaleX(1); }
+  @media (max-width: 640px) { .links { gap: 16px; font-size: .85rem; } .links .hide-sm { display: none; } }
+
+  /* Hero */
+  .hero { padding: clamp(72px, 14vh, 150px) 0 clamp(56px, 10vh, 110px); }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; padding: 6px 14px; border: 1px solid var(--border);
+    border-radius: 999px; background: var(--surface); font-size: .85rem; color: var(--muted); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 0 rgba(52,211,153,.6); animation: pulse 2.2s infinite; }
+  @keyframes pulse { 70% { box-shadow: 0 0 0 10px rgba(52,211,153,0); } 100% { box-shadow: 0 0 0 0 rgba(52,211,153,0); } }
+  h1 { font-size: clamp(2.5rem, 7vw, 5rem); line-height: 1.05; margin: 22px 0 10px; letter-spacing: -.03em; }
+  h1 .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .role { font-size: clamp(1.1rem, 2.4vw, 1.5rem); color: var(--muted); min-height: 2em; }
+  .role b { color: var(--text); font-weight: 600; }
+  .caret { display: inline-block; width: 2px; height: 1.1em; background: var(--accent-2); vertical-align: -.18em; margin-left: 3px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .lede { max-width: 640px; margin: 18px 0 30px; color: var(--muted); font-size: 1.08rem; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 12px; font-weight: 600; font-size: .95rem;
+    border: 1px solid var(--border); background: var(--surface); transition: transform .2s, border-color .2s, box-shadow .2s; }
+  .btn:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--accent) 60%, var(--border)); }
+  .btn.primary { background: var(--grad); border: 0; color: #fff; box-shadow: 0 8px 30px -10px var(--accent); }
+  .btn.primary:hover { box-shadow: 0 14px 34px -10px var(--accent); }
+
+  /* Sections */
+  section { padding: clamp(56px, 9vh, 96px) 0; }
+  .kicker { font-size: .8rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent-2); font-weight: 600; }
+  h2 { font-size: clamp(1.7rem, 4vw, 2.5rem); margin: 8px 0 34px; letter-spacing: -.02em; }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; transition-delay: var(--d, 0s); }
+  .reveal.in { opacity: 1; transform: none; }
+  .fade-up { animation: fadeUp .8s ease both; animation-delay: var(--d, 0s); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+  /* Cards with spotlight */
+  .card { position: relative; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
+    padding: 26px; overflow: hidden; transition: transform .3s, border-color .3s; }
+  .card::before { content: ""; position: absolute; inset: 0; opacity: 0; transition: opacity .3s; pointer-events: none;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%); }
+  .card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); }
+  .card:hover::before { opacity: 1; }
+  .card > * { position: relative; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .tag { font-size: .78rem; padding: 4px 10px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); color: var(--muted); }
+
+  /* About */
+  .about { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; }
+  @media (max-width: 800px) { .about { grid-template-columns: 1fr; } }
+  .about p { color: var(--muted); margin: 0 0 14px; }
+  .facts { display: grid; gap: 14px; }
+  .fact { display: flex; justify-content: space-between; gap: 16px; font-size: .95rem; padding-bottom: 12px; border-bottom: 1px dashed var(--border); }
+  .fact:last-child { border: 0; padding: 0; }
+  .fact span:first-child { color: var(--muted); }
+  .fact span:last-child { text-align: right; }
+
+  /* Timeline */
+  .timeline { position: relative; display: grid; gap: 22px; padding-left: 28px; }
+  .timeline::before { content: ""; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(var(--accent), var(--accent-2), transparent); border-radius: 2px; }
+  .job { position: relative; }
+  .job::before { content: ""; position: absolute; left: -28px; top: 28px; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--bg); border: 3px solid var(--accent-2); }
+  .job-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; }
+  .job h3 { margin: 0; font-size: 1.15rem; }
+  .job .org { color: var(--muted); font-size: .95rem; }
+  .job .when { color: var(--accent-2); font-size: .85rem; font-weight: 600; white-space: nowrap; }
+  .job ul { margin: 14px 0 0; padding-left: 18px; color: var(--muted); }
+  .job li { margin-bottom: 6px; }
+  .job li::marker { color: var(--accent); }
+
+  /* Projects */
+  .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .project h3 { margin: 6px 0 8px; font-size: 1.25rem; }
+  .project p { color: var(--muted); margin: 0 0 8px; }
+  .project .badge { font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-2); font-weight: 600; }
+  .project a.more { display: inline-block; margin-top: 12px; font-weight: 600; color: var(--accent-2); }
+  .project a.more:hover { text-decoration: underline; }
+
+  /* Skills */
+  .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .skills h3 { margin: 0 0 4px; font-size: 1rem; }
+
+  /* Contact */
+  .contact { text-align: center; padding: clamp(40px, 7vh, 72px) 24px; border-radius: 28px;
+    border: 1px solid var(--border); background: linear-gradient(180deg, var(--surface), var(--surface-2)); position: relative; overflow: hidden; }
+  .contact::before { content: ""; position: absolute; inset: -40% -10% auto; height: 80%; background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 30%, transparent), transparent); }
+  .contact > * { position: relative; }
+  .contact h2 { margin-bottom: 10px; }
+  .contact p { color: var(--muted); max-width: 520px; margin: 0 auto 26px; }
+  .contact .cta { justify-content: center; }
+  footer { padding: 36px 0 48px; text-align: center; color: var(--muted); font-size: .85rem; }
+
+  .hidden { display: none !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .blob, .dot, .caret { animation: none; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .fade-up { animation: none; }
+    .card, .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"><div class="blob a"></div><div class="blob b"></div><div class="grid"></div><div class="glow" id="glow"></div></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a href="#top" class="logo">avan<span>.dev</span></a>
+    <nav class="links" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills" class="hide-sm">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow fade-up"><span class="dot"></span> Stockholm, Sweden · open to new roles</div>
+      <h1 class="fade-up" style="--d:.08s">Hi, I'm <span class="grad">Avan</span>.</h1>
+      <div class="role fade-up" style="--d:.16s">AI engineer building <b id="rotator">RAG systems</b><span class="caret" aria-hidden="true"></span></div>
+      <p class="lede fade-up" style="--d:.24s">
+        I design and ship production LLM systems on Azure: hybrid retrieval, agentic workflows and the APIs that serve them.
+        MSc in Computer Science, with applied ML experience at Ericsson.
+      </p>
+      <div class="cta fade-up" style="--d:.32s">
+        <a class="btn primary" href="#projects">See my work <span aria-hidden="true">→</span></a>
+        <a class="btn hidden" id="resume-link" href="#" download>Download resume</a>
+        <a class="btn" href="#contact">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="kicker reveal">About</div>
+      <h2 class="reveal">Engineering AI that holds up in production</h2>
+      <div class="about">
+        <div class="reveal">
+          <p>I work across the whole path of an LLM feature: ingesting messy documents, designing retrieval that actually finds the right passage, orchestrating agents with tools, and exposing it all through secure, well-tested APIs.</p>
+          <p>At Beta Bridge Ventures I deliver client projects on Azure, from an agentic support assistant to an ESG analytics platform. Before that I automated and analysed engineering data at Ericsson, including my master's thesis on time-series forecasting.</p>
+          <p>I care about systems that are honest about what they know: grounded answers, flagged gaps, and verified outputs.</p>
+        </div>
+        <div class="card facts reveal" style="--d:.1s">
+          <div class="fact"><span>Based in</span><span>Stockholm, Sweden</span></div>
+          <div class="fact"><span>Focus</span><span>LLMs, RAG, backend APIs</span></div>
+          <div class="fact"><span>Stack</span><span>Python, FastAPI, .NET, Azure</span></div>
+          <div class="fact"><span>Education</span><span>MSc Computer Science, BTH</span></div>
+          <div class="fact"><span>Work permit</span><span>Free to change employer</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="kicker reveal">Experience</div>
+      <h2 class="reveal">Where I've worked</h2>
+      <div class="timeline">
+        <article class="card job reveal">
+          <div class="job-head">
+            <div><h3>Machine Learning Engineer &amp; Developer</h3><div class="org">Beta Bridge Ventures AB · Stockholm</div></div>
+            <div class="when">Feb 2025 – Present</div>
+          </div>
+          <ul>
+            <li>Rebuilt a sequential multi-agent LLM pipeline into a single agentic RAG system (Azure OpenAI, LangGraph) with tool-calling for retrieval, ticket creation and query clarification.</li>
+            <li>Designed hybrid retrieval fusing dense vectors (HNSW) and BM25 with Reciprocal Rank Fusion across Azure AI Search, Pinecone and Vertex AI RAG Engine.</li>
+            <li>Built a document ingestion pipeline for PDF, Word, Excel and HTML with OCR fallback, chunking and vector indexing.</li>
+            <li>Created a ticket-to-knowledge loop that turns resolved tickets into indexed knowledge articles.</li>
+            <li>Exposed ML inference for an ESG analytics platform through FastAPI and .NET 6 APIs.</li>
+          </ul>
+        </article>
+        <article class="card job reveal">
+          <div class="job-head">
+            <div><h3>Summer Internship, R&amp;D</h3><div class="org">Ericsson AB · Lund</div></div>
+            <div class="when">Jun 2024 – Jan 2025</div>
+          </div>
+          <ul>
+            <li>Automated FPGA custom build flows end to end in Python and migrated legacy shell/TCL scripts.</li>
+            <li>Built a real-time frequency-domain visualiser and a Streamlit app that automated Excel reporting.</li>
+          </ul>
+        </article>
+        <article class="card job reveal">
+          <div class="job-head">
+            <div><h3>Master Thesis Intern</h3><div class="org">Ericsson AB, Microwave Test · Göteborg</div></div>
+            <div class="when">Jan 2024 – Jun 2024</div>
+          </div>
+          <ul>
+            <li>Trained time-series ML and deep-learning models to predict Trouble Reports for the MINILINK 66 portfolio, using data extracted through the JIRA API.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="kicker reveal">Projects</div>
+      <h2 class="reveal">Things I've built</h2>
+      <div class="projects">
+        <article class="card project reveal">
+          <span class="badge">Personal project</span>
+          <h3>Platsjakt</h3>
+          <p>An AI job-application co-pilot. It ranks roles from the Arbetsförmedlingen JobSearch API with an LLM scorer, then drafts a tailored resume and answers for each one, with a human review step. It never auto-submits.</p>
+          <p>Grounded in a structured profile, flags gaps instead of fabricating, enforces limits in code and verifies PDF output. Runs for about $5/month.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Claude API</span><span class="tag">LaTeX</span><span class="tag">SMTP</span></div>
+          <a class="more hidden" id="platsjakt-link" href="#" target="_blank" rel="noopener">View on GitHub →</a>
+        </article>
+        <article class="card project reveal" style="--d:.1s">
+          <span class="badge">Client project</span>
+          <h3>Agentic document-search assistant</h3>
+          <p>A support assistant that answers from a client's own knowledge base. A single tool-calling agent retrieves knowledge, asks clarifying questions and raises tickets.</p>
+          <p>Hybrid retrieval, OCR-backed ingestion, and a loop that turns resolved tickets into new knowledge articles. Details are kept at architecture level under NDA.</p>
+          <div class="tags"><span class="tag">Azure OpenAI</span><span class="tag">LangGraph</span><span class="tag">Azure AI Search</span><span class="tag">Pinecone</span><span class="tag">FastAPI</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="kicker reveal">Skills</div>
+      <h2 class="reveal">Tools I work with</h2>
+      <div class="skills">
+        <div class="card reveal"><h3>LLM &amp; retrieval</h3>
+          <div class="tags"><span class="tag">Azure OpenAI</span><span class="tag">LangGraph</span><span class="tag">LangChain</span><span class="tag">RAG</span><span class="tag">Hybrid search</span><span class="tag">Embeddings</span><span class="tag">Prompt engineering</span></div></div>
+        <div class="card reveal" style="--d:.06s"><h3>Machine learning</h3>
+          <div class="tags"><span class="tag">scikit-learn</span><span class="tag">TensorFlow</span><span class="tag">Time series</span><span class="tag">MLflow</span><span class="tag">Pandas</span><span class="tag">NumPy</span></div></div>
+        <div class="card reveal" style="--d:.12s"><h3>Backend &amp; cloud</h3>
+          <div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">.NET 6</span><span class="tag">Docker</span><span class="tag">Azure</span><span class="tag">CI/CD</span><span class="tag">Git</span></div></div>
+        <div class="card reveal" style="--d:.18s"><h3>Front end</h3>
+          <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Streamlit</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact reveal">
+        <div class="kicker">Contact</div>
+        <h2>Let's build something</h2>
+        <p>I'm open to AI engineering and backend roles in Stockholm or remote. The quickest way to reach me is email.</p>
+        <div class="cta">
+          <a class="btn primary" href="mailto:gogiavan3286@gmail.com">gogiavan3286@gmail.com</a>
+          <a class="btn" href="https://linkedin.com/in/avangogineni" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn hidden" id="github-link" href="#" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">© <span id="year"></span> Avan Chowdary Gogineni · Stockholm</div></footer>
+
+<script>
+  // ---- Edit these. Empty values keep the related button hidden. ----
+  const CONFIG = {
+    github: "",          // e.g. "https://github.com/your-username"
+    platsjakt: "",       // e.g. "https://github.com/your-username/platsjakt"
+    resume: "",          // e.g. "Avan_Gogineni_Resume_AI_ML.pdf" (put the file next to index.html)
+  };
+
+  const show = (id, href) => { if (!href) return; const el = document.getElementById(id); el.href = href; el.classList.remove("hidden"); };
+  show("github-link", CONFIG.github);
+  show("platsjakt-link", CONFIG.platsjakt);
+  show("resume-link", CONFIG.resume);
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Scroll reveal
+  const items = document.querySelectorAll(".reveal");
+  if (reduce || !("IntersectionObserver" in window)) {
+    items.forEach(el => el.classList.add("in"));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    items.forEach(el => io.observe(el));
+  }
+
+  // Card spotlight
+  document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("pointermove", (e) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty("--mx", (e.clientX - r.left) + "px");
+      card.style.setProperty("--my", (e.clientY - r.top) + "px");
+    });
+  });
+
+  // Cursor-following glow (skipped on touch screens and for reduced motion)
+  const glow = document.getElementById("glow");
+  const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (glow && canHover && !reduce) {
+    let tx = innerWidth / 2, ty = innerHeight / 3, x = tx, y = ty, running = false;
+    const loop = () => {
+      x += (tx - x) * 0.12;
+      y += (ty - y) * 0.12;
+      glow.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      if (Math.abs(tx - x) > 0.3 || Math.abs(ty - y) > 0.3) requestAnimationFrame(loop);
+      else running = false;
+    };
+    const kick = () => { if (!running) { running = true; requestAnimationFrame(loop); } };
+    window.addEventListener("pointermove", (e) => {
+      tx = e.clientX; ty = e.clientY;
+      glow.classList.add("on");
+      kick();
+    }, { passive: true });
+    document.addEventListener("pointerleave", () => glow.classList.remove("on"));
+  }
+
+  // Typed role rotator
+  const phrases = ["RAG systems", "LLM agents", "hybrid search", "backend APIs on Azure"];
+  const out = document.getElementById("rotator");
+  if (reduce) {
+    out.textContent = phrases[0];
+  } else {
+    let p = 0, i = 0, del = false;
+    const tick = () => {
+      const word = phrases[p];
+      out.textContent = word.slice(0, i);
+      if (!del && i === word.length) { del = true; return setTimeout(tick, 1600); }
+      if (del && i === 0) { del = false; p = (p + 1) % phrases.length; return setTimeout(tick, 350); }
+      i += del ? -1 : 1;
+      setTimeout(tick, del ? 35 : 70);
+    };
+    out.textContent = ""; tick();
+  }
+</script>
+</body>
+</html>
