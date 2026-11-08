@@ -179,8 +179,15 @@
   .price .band { fill: var(--signal); opacity: .14; }
   .price .line { fill: none; stroke: var(--signal); stroke-width: 2; vector-effect: non-scaling-stroke; }
   .price .grid line { stroke: var(--rule); vector-effect: non-scaling-stroke; }
-  .viz .wipe { position: absolute; inset: 0; background: var(--paper); transform-origin: 100% 50%; transition: transform 1.6s var(--ease); }
-  .viz.in .wipe { transform: scaleX(0); }
+  .viz .wipe, .film .wipe { position: absolute; inset: 0; background: var(--paper); transform-origin: 100% 50%; transition: transform 1.6s var(--ease); }
+  .viz.in .wipe, .film.in .wipe { transform: scaleX(0); }
+  /* Launch films: a full-width row under the project, framed like .viz */
+  .proj .film { grid-column: 4 / -1; position: relative; border: 1px solid var(--ink); overflow: hidden; }
+  .film video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: var(--ink); }
+  .film .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 10px; border-top: 1px solid var(--ink); font-size: 11px; color: var(--muted); }
+  .film .bar .theme { color: var(--ink); white-space: nowrap; }
+  .film .bar .theme:hover { color: var(--paper); }
+  @media (max-width: 860px) { .proj .film { grid-column: 1 / -1; } }
   canvas.knn { position: absolute; inset: 0; width: 100%; height: 100%; }
 
   /* Skills */
@@ -211,8 +218,8 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
     .name .ch, .mask > span, [data-reveal] { transform: none !important; opacity: 1 !important; }
-    .head::before, .viz .wipe { transform: none !important; }
-    .viz .wipe { display: none; }
+    .head::before, .viz .wipe, .film .wipe { transform: none !important; }
+    .viz .wipe, .film .wipe { display: none; }
     .swap > span:not(.on) { visibility: hidden; }
   }
 </style>
@@ -343,6 +350,11 @@
         <div class="wipe"></div>
         <div class="cap mono" id="price-cap">Next-day forecast with 80% range</div>
       </div>
+      <figure class="film" data-reveal style="margin:0">
+        <video src="media/elvarsel.mp4" poster="media/elvarsel.jpg" muted loop playsinline preload="none" aria-label="Elvarsel launch film: the live dashboard, forecast chart, zone map and backtest accuracy"></video>
+        <figcaption class="bar mono"><span>Launch film · 0:20 · the live dashboard, 8 Nov 2026 forecast</span><button class="theme" type="button" data-sound>Sound off</button></figcaption>
+        <div class="wipe"></div>
+      </figure>
     </article>
 
     <article class="proj">
@@ -358,6 +370,11 @@
         <div class="rank" id="rank" aria-hidden="true"></div>
         <div class="cap mono">Roles re-ranked by the LLM scorer · human reviews the top</div>
       </div>
+      <figure class="film" data-reveal style="margin:0">
+        <video src="media/platsjakt.mp4" poster="media/platsjakt.jpg" muted loop playsinline preload="none" aria-label="Platsjakt launch film: matching roles, tailoring a CV and tracking applications in the app"></video>
+        <figcaption class="bar mono"><span>Launch film · 0:20 · the real app with sample data</span><button class="theme" type="button" data-sound>Sound off</button></figcaption>
+        <div class="wipe"></div>
+      </figure>
     </article>
 
     <article class="proj">
@@ -521,6 +538,18 @@
     if (!("IntersectionObserver" in window)) return start();
     new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? start() : stop())).observe(el);
   };
+
+  // Launch films: play muted only while on screen (click-to-play under reduced motion); one sound toggle each
+  document.querySelectorAll(".film").forEach(fig => {
+    const v = fig.querySelector("video"), btn = fig.querySelector("[data-sound]");
+    if (reduce) v.controls = true;
+    else whenVisible(v, () => v.play().catch(() => {}), () => v.pause());
+    btn.addEventListener("click", () => {
+      v.muted = !v.muted;
+      btn.textContent = v.muted ? "Sound off" : "Sound on";
+      if (!v.muted) v.play().catch(() => {});
+    });
+  });
 
   // Elvarsel: draw the live SE3 forecast from the public API; fall back to a smooth illustrative curve
   (async function () {
