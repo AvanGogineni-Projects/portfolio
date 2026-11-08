@@ -70,21 +70,21 @@
   .hero { padding: clamp(28px, 6vw, 72px) var(--gut) 0; }
   .hero .meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
   .name { margin: clamp(18px, 3vw, 36px) 0 0; font-weight: 900; font-stretch: 125%; line-height: .8; letter-spacing: -.045em;
-    font-size: clamp(40px, 14vw, 280px); text-transform: uppercase; white-space: nowrap; }
+    font-size: clamp(40px, min(14vw, 13vh), 280px); text-transform: uppercase; white-space: nowrap; }
   .name .ln { display: block; overflow: hidden; padding-bottom: .04em; }
   .name .sk { display: block; transform-origin: 0 100%; will-change: transform; }
   .name .ch { display: inline-block; transform: translateY(108%); animation: rise 1s var(--out) forwards; animation-delay: calc(.15s + var(--i) * .045s); }
   .name .ln:last-child .ch { color: transparent; -webkit-text-stroke: 2px var(--ink); }
   @keyframes rise { to { transform: none; } }
 
-  .ledger { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); margin: clamp(26px, 4vw, 48px) calc(-1 * var(--gut)) 0; }
+  .ledger { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); margin: 0 calc(-1 * var(--gut)); }
   .ledger > div { padding: 16px var(--gut) 20px; border-right: 1px solid var(--ink); font: 400 13px/1.5 var(--mono); }
   .ledger > div:last-child { border-right: 0; }
   .ledger big { display: block; font: 800 clamp(40px, 5.4vw, 76px)/1 var(--sans); font-stretch: 62%; letter-spacing: -.02em; margin-bottom: 8px; }
   .ledger big.s { color: var(--signal); }
   @media (max-width: 860px) { .ledger { grid-template-columns: 1fr 1fr; } .ledger > div:nth-child(2) { border-right: 0; } .ledger > div:nth-child(-n+2) { border-bottom: 1px solid var(--ink); } }
 
-  .intro { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0 var(--gut); padding: clamp(28px, 5vw, 64px) 0; align-items: end; }
+  .intro { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0 var(--gut); padding: clamp(20px, 3vw, 40px) 0; align-items: end; }
   .intro .role { grid-column: 1 / span 7; font-weight: 700; font-stretch: 85%; font-size: clamp(30px, 4.4vw, 64px); line-height: 1; letter-spacing: -.02em; margin: 0; }
   .swap { display: inline-grid; vertical-align: bottom; overflow: hidden; color: var(--signal); }
   .swap > span { grid-area: 1 / 1; transform: translateY(105%); transition: transform .7s var(--ease); white-space: nowrap; }
@@ -264,7 +264,7 @@
     <div class="ledger">
       <div data-reveal><big>2025→</big>ML engineer &amp; developer, Beta Bridge Ventures</div>
       <div data-reveal style="--d:.08s"><big class="s">RAG</big>Hybrid retrieval: HNSW + BM25 fused with RRF</div>
-      <div data-reveal style="--d:.16s"><big>12</big>Nordic price zones forecast daily in Elvarsel</div>
+      <div data-reveal style="--d:.16s"><big>15–42%</big>Lower forecast error than the naive baseline in all 12 Nordic zones (Elvarsel)</div>
       <div data-reveal style="--d:.24s"><big>MSc</big>Computer Science, BTH · thesis at Ericsson</div>
     </div>
   </section>
@@ -284,7 +284,8 @@
         <div class="fact"><span>Focus</span><span>LLMs, RAG, backend APIs</span></div>
         <div class="fact"><span>Stack</span><span>Python, FastAPI, .NET, Azure</span></div>
         <div class="fact"><span>Education</span><span>MSc Computer Science, BTH</span></div>
-        <div class="fact"><span>Work permit</span><span>Free to change employer</span></div>
+        <div class="fact"><span>Work permit</span><span>Swedish work permit (employer-sponsored)</span></div>
+        <div class="fact"><span>Languages</span><span>English; Swedish (beginner)</span></div>
       </div>
     </div>
   </section>
@@ -299,7 +300,8 @@
           <div class="org mono muted">Beta Bridge Ventures AB · Stockholm</div>
           <ul>
             <li>Rebuilt a sequential multi-agent LLM pipeline into a single agentic RAG system (Azure OpenAI, LangGraph) with tool-calling for retrieval, ticket creation and query clarification.</li>
-            <li>Designed hybrid retrieval fusing dense vectors (HNSW) and BM25 with Reciprocal Rank Fusion across Azure AI Search, Pinecone and Vertex AI RAG Engine.</li>
+            <li>Designed hybrid retrieval fusing dense vectors (HNSW) and BM25 with Reciprocal Rank Fusion across Azure AI Search, Pinecone and Vertex AI RAG Engine, so each client's data stays on the cloud it already uses.</li>
+            <li>Measured retrieval quality with recall@k to tune the hybrid search; in production every request is traced, with guardrails and token/cost limits.</li>
             <li>Built a document ingestion pipeline for PDF, Word, Excel and HTML with OCR fallback, chunking and vector indexing.</li>
             <li>Created a ticket-to-knowledge loop that turns resolved tickets into indexed knowledge articles.</li>
             <li>Exposed ML inference for EcoPRISM, an ESG analytics platform from a sister company, through FastAPI and .NET 6 APIs.</li>
@@ -312,7 +314,7 @@
           <h3>Summer Internship, R&amp;D</h3>
           <div class="org mono muted">Ericsson AB · Lund</div>
           <ul>
-            <li>Automated FPGA custom build flows end to end in Python and migrated legacy shell/TCL scripts.</li>
+            <li>Rewrote a ~1,900-line Tcl/Tk FPGA build script as a Python library that automates the custom build flow end to end; later projects reused it for their own build scripts.</li>
             <li>Built a real-time frequency-domain visualiser and a Streamlit app that automated Excel reporting.</li>
           </ul>
         </div>
