@@ -129,8 +129,8 @@
   .about { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gut); }
   .about .copy { grid-column: 4 / span 5; }
   .about .copy p:first-child { margin-top: 0; font-size: clamp(20px, 2vw, 26px); line-height: 1.35; }
-  .about .facts { grid-column: 10 / -1; border-top: 1px solid var(--ink); align-self: start; }
-  .fact { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--rule); font-size: 14px; }
+  .about .facts { grid-column: 9 / -1; border-top: 1px solid var(--ink); align-self: start; }
+  .fact { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px 10px 0; border-bottom: 1px solid var(--rule); font-size: 14px; }
   .fact span:first-child { font: 400 12px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding-top: 2px; }
   .fact span:last-child { text-align: right; }
   @media (max-width: 860px) { .about .copy, .about .facts { grid-column: 1 / -1; } }
