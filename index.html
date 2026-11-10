@@ -179,6 +179,10 @@
   .price .band { fill: var(--signal); opacity: .14; }
   .price .line { fill: none; stroke: var(--signal); stroke-width: 2; vector-effect: non-scaling-stroke; }
   .price .grid line { stroke: var(--rule); vector-effect: non-scaling-stroke; }
+  /* Busskoll: live route map */
+  .bmap { position: absolute; inset: 16px 16px 34px; width: calc(100% - 32px); height: calc(100% - 50px); }
+  .bmap polyline { fill: none; stroke: var(--ink); stroke-width: 1.2; opacity: .55; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+  .bmap rect { fill: var(--signal); }
   .viz .wipe, .film .wipe { position: absolute; inset: 0; background: var(--paper); transform-origin: 100% 50%; transition: transform 1.6s var(--ease); }
   .viz.in .wipe, .film.in .wipe { transform: scaleX(0); }
   /* Launch films: a full-width row under the project, framed like .viz */
@@ -360,7 +364,28 @@
     </article>
 
     <article class="proj">
-      <div class="idx"><b>02</b><span class="mono muted">Personal project</span></div>
+      <div class="idx"><b>02</b><span class="mono muted">Personal project · ML</span></div>
+      <div class="txt" data-reveal>
+        <h3>Busskoll</h3>
+        <p>Live arrival predictions for Stockholm's SL buses. Every 90 seconds it reads SL's realtime feed, predicts when each bus reaches its next five stops with a LightGBM model that corrects SL's own forecast, and grades every prediction against the actual arrival and against SL.</p>
+        <p>In a 28-day walk-forward backtest against GPS-measured arrivals (lines 1, 4 and 6), its average error is 23% lower than SL's: 28.7 s against 37.3 s. The model runs in NumPy inside a FastAPI function on Vercel, with no database.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">LightGBM</span><span class="tag">GTFS-RT</span><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">Vercel</span></div>
+        <div class="links mono"><a class="u" href="https://busskoll-pearl.vercel.app" target="_blank" rel="noopener" data-cursor>Live map ↗</a></div>
+      </div>
+      <div class="viz" data-reveal style="--d:.1s">
+        <svg class="bmap" id="bmap" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g id="bmap-routes"></g><g id="bmap-buses"></g></svg>
+        <div class="wipe"></div>
+        <div class="cap mono" id="bmap-cap">Loading the live network…</div>
+      </div>
+      <figure class="film" data-reveal style="margin:0">
+        <video src="media/busskoll.mp4" poster="media/busskoll.jpg" muted loop playsinline preload="none" aria-label="Busskoll launch film: the live network map, a bus's next stops with SL's time against Busskoll's, and the accuracy scoreboard"></video>
+        <figcaption class="bar mono"><span>Launch film · 0:20 · the live site, 10 Nov 2026</span><button class="theme" type="button" data-sound>Sound off</button></figcaption>
+        <div class="wipe"></div>
+      </figure>
+    </article>
+
+    <article class="proj">
+      <div class="idx"><b>03</b><span class="mono muted">Personal project</span></div>
       <div class="txt" data-reveal>
         <h3>Platsjakt</h3>
         <p>An AI job-application co-pilot. It ranks roles from the Arbetsförmedlingen JobSearch API with an LLM scorer, then drafts a tailored resume and answers for each one, with a human review step. It never auto-submits.</p>
@@ -380,7 +405,7 @@
     </article>
 
     <article class="proj">
-      <div class="idx"><b>03</b><span class="mono muted">Client project · NDA</span></div>
+      <div class="idx"><b>04</b><span class="mono muted">Client project · NDA</span></div>
       <div class="txt" data-reveal>
         <h3>Agentic document-search assistant</h3>
         <p>A support assistant that answers from a client's own knowledge base. A single tool-calling agent retrieves knowledge, asks clarifying questions and raises tickets.</p>
@@ -578,6 +603,46 @@
       draw(pts);
       cap.textContent = `Live · SE3 next-day forecast, EUR/MWh, 80% range · from /v1/forecast`;
     } catch (e) { /* keep the illustrative shape */ }
+  })();
+
+  // Busskoll: route shapes from the public API, each bus at the last stop it passed; refreshed while on screen
+  (function () {
+    const API = "https://busskoll-pearl.vercel.app/v1/";
+    const svg = document.getElementById("bmap"), routesG = document.getElementById("bmap-routes"), busesG = document.getElementById("bmap-buses"), cap = document.getElementById("bmap-cap");
+    const NS = "http://www.w3.org/2000/svg";
+    let stops = null, proj = null, id = 0;
+    const get = async (path) => { const ctrl = new AbortController(); setTimeout(() => ctrl.abort(), 6000); const r = await fetch(API + path, { signal: ctrl.signal }); if (!r.ok) throw new Error(r.status); return r.json(); };
+    async function routes() {
+      const d = await get("routes");
+      const all = d.routes.flatMap(r => r.shapes.flatMap(s => s.coords));
+      const lat0 = all.reduce((a, c) => a + c[1], 0) / all.length, k = Math.cos(lat0 * Math.PI / 180);
+      proj = ([lon, lat]) => [lon * k * 1000, -lat * 1000];  // equirectangular, metres-ish scale
+      const xy = all.map(proj), xs = xy.map(p => p[0]), ys = xy.map(p => p[1]);
+      const pad = 2, x0 = Math.min(...xs) - pad, y0 = Math.min(...ys) - pad;
+      svg.setAttribute("viewBox", `${x0} ${y0} ${Math.max(...xs) - x0 + pad} ${Math.max(...ys) - y0 + pad}`);
+      d.routes.forEach(r => r.shapes.forEach(s => {
+        const pl = document.createElementNS(NS, "polyline");
+        pl.setAttribute("points", s.coords.map(c => proj(c).map(v => v.toFixed(2)).join(",")).join(" "));
+        routesG.appendChild(pl);
+      }));
+      stops = Object.fromEntries(d.stops.map(s => [s.stop_id, [s.lon, s.lat]]));
+      return d.routes.map(r => r.line).sort((a, b) => a.localeCompare(b, "en", { numeric: true }));
+    }
+    async function buses(lines) {
+      const d = await get("vehicles"), s = 2.2;
+      busesG.replaceChildren(...d.vehicles.filter(v => stops[v.last_stop.stop_id]).map(v => {
+        const [x, y] = proj(stops[v.last_stop.stop_id]), r = document.createElementNS(NS, "rect");
+        Object.entries({ x: x - s / 2, y: y - s / 2, width: s, height: s }).forEach(([a, b]) => r.setAttribute(a, b.toFixed(2)));
+        return r;
+      }));
+      cap.textContent = `Live · ${d.vehicles.length} buses on lines ${lines.join(", ")} · from /v1/vehicles`;
+    }
+    let lines = null;
+    const refresh = async () => {
+      try { lines = lines || await routes(); await buses(lines); }
+      catch (e) { if (!busesG.childElementCount) cap.textContent = "Live feed unreachable right now · the film below shows the site"; }
+    };
+    whenVisible(svg, () => { if (id) return; refresh(); id = setInterval(refresh, 90000); }, () => { clearInterval(id); id = 0; });
   })();
 
   // Platsjakt: rows re-rank every few seconds
