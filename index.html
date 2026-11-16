@@ -183,6 +183,15 @@
   .bmap { position: absolute; inset: 16px 16px 34px; width: calc(100% - 32px); height: calc(100% - 50px); }
   .bmap polyline { fill: none; stroke: var(--ink); stroke-width: 1.2; opacity: .55; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
   .bmap rect { fill: var(--signal); }
+  /* Bolagsvakt: of the riskiest 1%, the share that went bankrupt (validation result, no company data) */
+  .lift { position: absolute; inset: 20px 16px 38px; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
+  .lift div { font: 400 11px var(--mono); }
+  .lift p { display: flex; justify-content: space-between; margin: 0 0 6px; }
+  .lift i { display: block; height: 12px; width: var(--w); background: var(--ink); transform: scaleX(0); transform-origin: 0 50%; transition: transform 1.2s var(--out) var(--d, 0s); }
+  .lift .hi { color: var(--signal); }
+  .lift .hi i { background: var(--signal); }
+  .viz.in .lift i { transform: scaleX(1); }
+  .film img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; background: var(--ink); }
   .viz .wipe, .film .wipe { position: absolute; inset: 0; background: var(--paper); transform-origin: 100% 50%; transition: transform 1.6s var(--ease); }
   .viz.in .wipe, .film.in .wipe { transform: scaleX(0); }
   /* Launch films: a full-width row under the project, framed like .viz */
@@ -340,7 +349,32 @@
     <div class="head" data-reveal-head><span class="num mono">§03 — Projects</span><h2 id="proj-h"><span class="mask"><span>Things I've built</span></span></h2></div>
 
     <article class="proj">
-      <div class="idx"><b>01</b><span class="mono muted">Personal project · MLOps</span></div>
+      <div class="idx"><b>01</b><span class="mono muted">Personal project · Data &amp; ML</span></div>
+      <div class="txt" data-reveal>
+        <h3>Bolagsvakt</h3>
+        <p>Company-risk monitoring for Swedish small businesses: add the companies you sell to or buy from, and it tells you when one starts going wrong, and why. Built on Bolagsverket's open data: a weekly snapshot of 982,666 companies diffed into SCD2 history, and 1.25M annual reports parsed from iXBRL.</p>
+        <p>An explainable risk score (logistic regression on 14 accounting signs) validated on later filings: AUC 0.784 against 0.609 for the negative-equity rule. Served by a multi-tenant FastAPI app on Postgres with row-level security, and a React front end.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">DuckDB</span><span class="tag">scikit-learn</span><span class="tag">Postgres</span><span class="tag">FastAPI</span><span class="tag">React</span></div>
+        <div class="links mono"><a class="u" href="https://bolagsvakt.vercel.app" target="_blank" rel="noopener" data-cursor>Live app ↗</a></div>
+      </div>
+      <div class="viz" data-reveal style="--d:.1s">
+        <div class="lift" aria-hidden="true">
+          <div><p><span>Average company</span><span>2.9%</span></p><i style="--w:12.3%"></i></div>
+          <div><p><span>Negative-equity rule</span><span>8.4%</span></p><i style="--w:35.6%;--d:.15s"></i></div>
+          <div class="hi"><p><span>Bolagsvakt model</span><span>23.6%</span></p><i style="--w:100%;--d:.3s"></i></div>
+        </div>
+        <div class="wipe"></div>
+        <div class="cap mono">Riskiest 1% that went bankrupt · 149,572 filings</div>
+      </div>
+      <figure class="film" data-reveal style="margin:0">
+        <img src="media/bolagsvakt.jpg" alt="Bolagsvakt watchlist: eight companies sorted by risk, with status stamps, a five-step risk ladder and the main warning sign for each; company names and organisation numbers are blurred" loading="lazy" width="2880" height="1620">
+        <figcaption class="bar mono"><span>The live app · company names and org numbers blurred</span><a class="theme u" href="https://bolagsvakt.vercel.app" target="_blank" rel="noopener" data-cursor>Open ↗</a></figcaption>
+        <div class="wipe"></div>
+      </figure>
+    </article>
+
+    <article class="proj">
+      <div class="idx"><b>02</b><span class="mono muted">Personal project · MLOps</span></div>
       <div class="txt" data-reveal>
         <h3>Elvarsel</h3>
         <p>Next-day electricity-price forecasting for all 12 Nordic bidding zones, wrapped in a full MLOps lifecycle: ingestion, a point-in-time feature store, one LightGBM model for every zone with a calibrated 80% range, a read-only FastAPI service, a React dashboard and a scheduled daily retrain-and-forecast job.</p>
@@ -364,7 +398,7 @@
     </article>
 
     <article class="proj">
-      <div class="idx"><b>02</b><span class="mono muted">Personal project · ML</span></div>
+      <div class="idx"><b>03</b><span class="mono muted">Personal project · ML</span></div>
       <div class="txt" data-reveal>
         <h3>Busskoll</h3>
         <p>Live arrival predictions for Stockholm's SL buses. Every 90 seconds it reads SL's realtime feed, predicts when each bus reaches its next five stops with a LightGBM model that corrects SL's own forecast, and grades every prediction against the actual arrival and against SL.</p>
@@ -385,7 +419,7 @@
     </article>
 
     <article class="proj">
-      <div class="idx"><b>03</b><span class="mono muted">Personal project</span></div>
+      <div class="idx"><b>04</b><span class="mono muted">Personal project</span></div>
       <div class="txt" data-reveal>
         <h3>Platsjakt</h3>
         <p>An AI job-application co-pilot. It ranks roles from the Arbetsförmedlingen JobSearch API with an LLM scorer, then drafts a tailored resume and answers for each one, with a human review step. It never auto-submits.</p>
@@ -405,7 +439,7 @@
     </article>
 
     <article class="proj">
-      <div class="idx"><b>04</b><span class="mono muted">Client project · NDA</span></div>
+      <div class="idx"><b>05</b><span class="mono muted">Client project · NDA</span></div>
       <div class="txt" data-reveal>
         <h3>Agentic document-search assistant</h3>
         <p>A support assistant that answers from a client's own knowledge base. A single tool-calling agent retrieves knowledge, asks clarifying questions and raises tickets.</p>
@@ -569,6 +603,7 @@
   // Launch films: play muted only while on screen (click-to-play under reduced motion); one sound toggle each
   document.querySelectorAll(".film").forEach(fig => {
     const v = fig.querySelector("video"), btn = fig.querySelector("[data-sound]");
+    if (!v || !btn) return;  // a still image (Bolagsvakt) has nothing to play
     if (reduce) v.controls = true;
     else whenVisible(v, () => v.play().catch(() => {}), () => v.pause());
     btn.addEventListener("click", () => {
