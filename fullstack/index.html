@@ -168,6 +168,11 @@
   .links { display: flex; gap: 18px; flex-wrap: wrap; }
   @media (max-width: 860px) { .proj .idx, .proj .txt, .proj .viz { grid-column: 1 / -1; } .proj .idx { flex-direction: row; align-items: end; justify-content: space-between; } }
 
+  /* Tenderlens: contract clock (contracts ending per month, live) */
+  .tclock { position: absolute; inset: 22px 16px 40px; display: flex; align-items: flex-end; gap: 5px; }
+  .tclock span { flex: 1; height: var(--h); background: var(--ink); transform-origin: 50% 100%; transform: scaleY(0); transition: transform .9s var(--ease) var(--d, 0s); }
+  .tclock span.hi { background: var(--signal); }
+  .viz.in .tclock span { transform: scaleY(1); }
   /* Platsjakt ⇄ Signaljakt: one engine, two sides */
   .flipper { display: inline-flex; border: 1px solid var(--ink); margin: 0 0 18px; }
   .flipper button { font: 400 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; background: none; color: var(--ink); border: 0; padding: 7px 12px; cursor: pointer; }
@@ -283,7 +288,7 @@
 
     <div class="ledger">
       <div data-reveal><big>2025→</big>Full-stack features and APIs, Beta Bridge Ventures</div>
-      <div data-reveal style="--d:.08s"><big>4</big>Live full-stack apps: React + FastAPI, lint and tests in CI on every PR</div>
+      <div data-reveal style="--d:.08s"><big>5</big>Live full-stack apps: React + FastAPI, lint and tests in CI on every PR</div>
       <div data-reveal style="--d:.16s"><big>15–42%</big>Lower forecast error than the naive baseline in all 12 Nordic zones (Elvarsel)</div>
       <div data-reveal style="--d:.24s"><big>MSc</big>Computer Science, BTH · incl. Software Testing &amp; Security</div>
     </div>
@@ -374,6 +379,27 @@
     <article class="proj">
       <div class="idx"><b>02</b><span class="mono muted">Personal project · Full stack</span></div>
       <div class="txt" data-reveal>
+        <h3>Tenderlens</h3>
+        <p>Public-procurement intelligence for Sweden: which public contracts end soon, so the next tender is coming, who wins them and at what price. Supplier, buyer and market pages, search by name or org number in about 10 ms, and a contract clock of what ends each month.</p>
+        <p>React + TypeScript on a read-only FastAPI: every request runs on a SELECT-only Postgres role and repeat requests are served by Vercel's CDN. A daily Databricks + dbt pipeline over 2.4M EU tender notices refreshes the data in one transaction.</p>
+        <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">FastAPI</span><span class="tag">Postgres</span><span class="tag">Databricks</span><span class="tag">dbt</span></div>
+        <div class="links mono"><a class="u" href="https://tenderlens-eosin.vercel.app" target="_blank" rel="noopener" data-cursor>Live app ↗</a></div>
+      </div>
+      <div class="viz" data-reveal style="--d:.1s">
+        <div class="tclock" id="tclock" aria-hidden="true"></div>
+        <div class="wipe"></div>
+        <div class="cap mono" id="tclock-cap">Swedish public contracts ending, next 12 months</div>
+      </div>
+      <figure class="film" data-reveal style="margin:0">
+        <img src="../media/tenderlens.jpg" alt="Tenderlens home page: the headline, live totals, the contract clock of contracts ending per month, category filters and the start of the ending-soon list" loading="lazy" width="1920" height="1080">
+        <figcaption class="bar mono"><span>The live site · 17 Nov 2026</span><a class="u" href="https://tenderlens-eosin.vercel.app" target="_blank" rel="noopener" data-cursor>Open ↗</a></figcaption>
+        <div class="wipe"></div>
+      </figure>
+    </article>
+
+    <article class="proj">
+      <div class="idx"><b>03</b><span class="mono muted">Personal project · Full stack</span></div>
+      <div class="txt" data-reveal>
         <h3>Elvarsel</h3>
         <p>Next-day electricity-price forecasting for all 12 Nordic bidding zones, wrapped in a full MLOps lifecycle: ingestion, a point-in-time feature store, one LightGBM model for every zone with a calibrated 80% range, a read-only FastAPI service, a React dashboard and a scheduled daily retrain-and-forecast job.</p>
         <p>In a 52-week walk-forward backtest it beats the naive "same hour yesterday" baseline in every zone, with 15–42% lower MAE.</p>
@@ -396,7 +422,7 @@
     </article>
 
     <article class="proj">
-      <div class="idx"><b>03</b><span class="mono muted">Personal project · Full stack</span></div>
+      <div class="idx"><b>04</b><span class="mono muted">Personal project · Full stack</span></div>
       <div class="txt" data-reveal>
         <h3>Busskoll</h3>
         <p>Live arrival predictions for Stockholm's SL buses. Every 90 seconds it reads SL's realtime feed, predicts when each bus reaches its next five stops with a LightGBM model that corrects SL's own forecast, and grades every prediction against the actual arrival and against SL.</p>
@@ -417,7 +443,7 @@
     </article>
 
     <article class="proj flip" data-side="platsjakt">
-      <div class="idx"><b>04</b><span class="mono muted">Personal project · Full stack</span></div>
+      <div class="idx"><b>05</b><span class="mono muted">Personal project · Full stack</span></div>
       <div class="txt" data-reveal>
         <div class="flipper" role="tablist" aria-label="Show Platsjakt or Signaljakt"><button type="button" role="tab" aria-selected="true" data-flip="platsjakt" data-cursor>For job seekers · Platsjakt</button><button type="button" role="tab" aria-selected="false" data-flip="signaljakt" data-cursor>For companies · Signaljakt</button></div>
         <div data-for="platsjakt">
@@ -453,7 +479,7 @@
     </article>
 
     <article class="proj">
-      <div class="idx"><b>05</b><span class="mono muted">Client project · NDA</span></div>
+      <div class="idx"><b>06</b><span class="mono muted">Client project · NDA</span></div>
       <div class="txt" data-reveal>
         <h3>Agentic document-search assistant</h3>
         <p>A support assistant that answers from a client's own knowledge base. A single tool-calling agent retrieves knowledge, asks clarifying questions and raises tickets.</p>
@@ -692,6 +718,22 @@
       catch (e) { if (!busesG.childElementCount) cap.textContent = "Live feed unreachable right now · the film below shows the site"; }
     };
     whenVisible(svg, () => { if (id) return; refresh(); id = setInterval(refresh, 90000); }, () => { clearInterval(id); id = 0; });
+  })();
+
+  // Tenderlens: contract clock from the live API; falls back to the 17 Nov 2026 snapshot
+  (function () {
+    const box = document.getElementById("tclock"), cap = document.getElementById("tclock-cap");
+    if (!box) return;
+    const draw = (months, live) => {
+      const max = Math.max(...months.map(m => m.contracts), 1);
+      box.innerHTML = months.map((m, i) => `<span class="${i < 3 ? "hi" : ""}" style="--h:${Math.max(3, m.contracts / max * 100)}%;--d:${i * .04}s" title="${m.month}: ${m.contracts.toLocaleString("en-GB")} contracts"></span>`).join("");
+      const total = months.reduce((s, m) => s + m.contracts, 0).toLocaleString("en-GB");
+      cap.textContent = `${total} Swedish public contracts ending, next 12 months · ${live ? "live" : "17 Nov 2026"}`;
+    };
+    const snapshot = [510, 1661, 938, 1127, 955, 983, 886, 758, 268, 906, 1013, 675, 931].map((c, i) => ({ month: `m${i}`, contracts: c }));
+    draw(snapshot, false);
+    fetch("https://tenderlens-eosin.vercel.app/v1/stats").then(r => r.ok ? r.json() : Promise.reject())
+      .then(s => s.expiring_by_month && s.expiring_by_month.length && draw(s.expiring_by_month, true)).catch(() => {});
   })();
 
   // Platsjakt ⇄ Signaljakt: the same engine for job seekers and for companies
