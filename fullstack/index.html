@@ -358,7 +358,7 @@
         <p>Company-risk monitoring for Swedish small businesses: add the companies you sell to or buy from, and it tells you when one starts going wrong, and why. Built on Bolagsverket's open data: a weekly snapshot of 982,666 companies diffed into SCD2 history, and 1.25M annual reports parsed from iXBRL.</p>
         <p>A multi-tenant FastAPI app on Supabase Postgres with row-level security on its own database role, a React/TypeScript front end on Vercel, and a weekly publish of 1M rows in one transaction. The risk score is validated on later filings: AUC 0.784 against 0.609 for the negative-equity rule.</p>
         <div class="tags"><span class="tag">Python</span><span class="tag">DuckDB</span><span class="tag">Postgres</span><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Vercel</span></div>
-        <div class="links mono"><a class="u" href="https://bolagsvakt.vercel.app" target="_blank" rel="noopener" data-cursor>Live app ↗</a></div>
+        <div class="links mono"><a class="u" href="https://bolagsvakt.vercel.app" target="_blank" rel="noopener" data-cursor>Live app ↗</a><a class="u" href="https://github.com/AvanGogineni-Projects/Bolagsvakt" target="_blank" rel="noopener" data-cursor>Source ↗</a></div>
       </div>
       <div class="viz" data-reveal style="--d:.1s">
         <div class="lift" aria-hidden="true">
@@ -383,7 +383,7 @@
         <p>Public-procurement intelligence for Sweden: which public contracts end soon, so the next tender is coming, who wins them and at what price. Supplier, buyer and market pages, search by name or org number in about 10 ms, and a contract clock of what ends each month.</p>
         <p>React + TypeScript on a read-only FastAPI: every request runs on a SELECT-only Postgres role and repeat requests are served by Vercel's CDN. A daily Databricks + dbt pipeline over 2.4M EU tender notices refreshes the data in one transaction.</p>
         <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">FastAPI</span><span class="tag">Postgres</span><span class="tag">Databricks</span><span class="tag">dbt</span></div>
-        <div class="links mono"><a class="u" href="https://tenderlens-eosin.vercel.app" target="_blank" rel="noopener" data-cursor>Live app ↗</a></div>
+        <div class="links mono"><a class="u" href="https://tenderlens-eosin.vercel.app" target="_blank" rel="noopener" data-cursor>Live app ↗</a><a class="u" href="https://github.com/AvanGogineni-Projects/Tenderlens" target="_blank" rel="noopener" data-cursor>Source ↗</a></div>
       </div>
       <div class="viz" data-reveal style="--d:.1s">
         <div class="tclock" id="tclock" aria-hidden="true"></div>
@@ -428,7 +428,7 @@
         <p>Live arrival predictions for Stockholm's SL buses. Every 90 seconds it reads SL's realtime feed, predicts when each bus reaches its next five stops with a LightGBM model that corrects SL's own forecast, and grades every prediction against the actual arrival and against SL.</p>
         <p>In a 28-day walk-forward backtest against GPS-measured arrivals (lines 1, 4 and 6), its average error is 23% lower than SL's: 28.7 s against 37.3 s. The model runs in NumPy inside a FastAPI function on Vercel, with no database.</p>
         <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">FastAPI</span><span class="tag">GTFS-RT</span><span class="tag">pytest</span><span class="tag">Vercel</span><span class="tag">LightGBM</span></div>
-        <div class="links mono"><a class="u" href="https://busskoll-pearl.vercel.app" target="_blank" rel="noopener" data-cursor>Live map ↗</a></div>
+        <div class="links mono"><a class="u" href="https://busskoll-pearl.vercel.app" target="_blank" rel="noopener" data-cursor>Live map ↗</a><a class="u" href="https://github.com/AvanGogineni-Projects/Busskoll" target="_blank" rel="noopener" data-cursor>Source ↗</a></div>
       </div>
       <div class="viz" data-reveal style="--d:.1s">
         <svg class="bmap" id="bmap" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g id="bmap-routes"></g><g id="bmap-buses"></g></svg>
@@ -526,7 +526,7 @@
   const CONFIG = {
     github: "",          // e.g. "https://github.com/your-username"
     platsjakt: "",       // e.g. "https://github.com/your-username/platsjakt"
-    resume: "Avan_Gogineni_Resume_TestAutomation.pdf",
+    resume: "Avan_Gogineni_Resume_S.pdf",
   };
 
   const show = (id, href) => { if (!href) return; const el = document.getElementById(id); el.href = href; el.classList.remove("hidden"); };

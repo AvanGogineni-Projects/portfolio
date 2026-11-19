@@ -367,7 +367,7 @@
         <p>Company-risk monitoring for Swedish small businesses: add the companies you sell to or buy from, and it tells you when one starts going wrong, and why. Built on Bolagsverket's open data: a weekly snapshot of 982,666 companies diffed into SCD2 history, and 1.25M annual reports parsed from iXBRL.</p>
         <p>An explainable risk score (logistic regression on 14 accounting signs) validated on later filings: AUC 0.784 against 0.609 for the negative-equity rule. Served by a multi-tenant FastAPI app on Postgres with row-level security, and a React front end.</p>
         <div class="tags"><span class="tag">Python</span><span class="tag">DuckDB</span><span class="tag">scikit-learn</span><span class="tag">Postgres</span><span class="tag">FastAPI</span><span class="tag">React</span></div>
-        <div class="links mono"><a class="u" href="https://bolagsvakt.vercel.app" target="_blank" rel="noopener" data-cursor>Live app ↗</a></div>
+        <div class="links mono"><a class="u" href="https://bolagsvakt.vercel.app" target="_blank" rel="noopener" data-cursor>Live app ↗</a><a class="u" href="https://github.com/AvanGogineni-Projects/Bolagsvakt" target="_blank" rel="noopener" data-cursor>Source ↗</a></div>
       </div>
       <div class="viz" data-reveal style="--d:.1s">
         <div class="lift" aria-hidden="true">
@@ -392,7 +392,7 @@
         <p>Public-procurement intelligence for Sweden: which public contracts end soon, so the next tender is coming, who wins them and at what price. A daily Databricks pipeline downloads every EU tender notice from TED (2.4M since 2024), parses the eForms XML into Delta tables and models it with dbt.</p>
         <p>Lakeflow bronze and silver with expectations and a quarantine, dbt gold with 32 tests, Swedish suppliers joined to the Bolagsverket register, values in EUR at ECB rates. A daily export feeds Postgres behind a read-only FastAPI and a React site on Vercel.</p>
         <div class="tags"><span class="tag">Databricks</span><span class="tag">Spark</span><span class="tag">Delta Lake</span><span class="tag">dbt</span><span class="tag">Python</span><span class="tag">Postgres</span><span class="tag">FastAPI</span></div>
-        <div class="links mono"><a class="u" href="https://tenderlens-eosin.vercel.app" target="_blank" rel="noopener" data-cursor>Live app ↗</a></div>
+        <div class="links mono"><a class="u" href="https://tenderlens-eosin.vercel.app" target="_blank" rel="noopener" data-cursor>Live app ↗</a><a class="u" href="https://github.com/AvanGogineni-Projects/Tenderlens" target="_blank" rel="noopener" data-cursor>Source ↗</a></div>
       </div>
       <div class="viz" data-reveal style="--d:.1s">
         <div class="tclock" id="tclock" aria-hidden="true"></div>
@@ -437,7 +437,7 @@
         <p>Live arrival predictions for Stockholm's SL buses. Every 90 seconds it reads SL's realtime feed, predicts when each bus reaches its next five stops with a LightGBM model that corrects SL's own forecast, and grades every prediction against the actual arrival and against SL.</p>
         <p>In a 28-day walk-forward backtest against GPS-measured arrivals (lines 1, 4 and 6), its average error is 23% lower than SL's: 28.7 s against 37.3 s. The model runs in NumPy inside a FastAPI function on Vercel, with no database.</p>
         <div class="tags"><span class="tag">Python</span><span class="tag">LightGBM</span><span class="tag">GTFS-RT</span><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">Vercel</span></div>
-        <div class="links mono"><a class="u" href="https://busskoll-pearl.vercel.app" target="_blank" rel="noopener" data-cursor>Live map ↗</a></div>
+        <div class="links mono"><a class="u" href="https://busskoll-pearl.vercel.app" target="_blank" rel="noopener" data-cursor>Live map ↗</a><a class="u" href="https://github.com/AvanGogineni-Projects/Busskoll" target="_blank" rel="noopener" data-cursor>Source ↗</a></div>
       </div>
       <div class="viz" data-reveal style="--d:.1s">
         <svg class="bmap" id="bmap" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g id="bmap-routes"></g><g id="bmap-buses"></g></svg>
@@ -534,7 +534,7 @@
   const CONFIG = {
     github: "",          // e.g. "https://github.com/your-username"
     platsjakt: "",       // e.g. "https://github.com/your-username/platsjakt"
-    resume: "",          // e.g. "Avan_Gogineni_Resume_AI_ML.pdf" (put the file next to index.html)
+    resume: "Avan_Gogineni_Resume_AI.pdf",
   };
 
   const show = (id, href) => { if (!href) return; const el = document.getElementById(id); el.href = href; el.classList.remove("hidden"); };
